@@ -1,26 +1,9 @@
-import { styled } from 'styled-components';
-
 import { Button } from '@nextui-org/react';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Input } from '@nextui-org/react';
 
 import logoSrc from '../assets/logo.svg'
-import silkaSrc from '../assets/silka.jpg';
-
-const BgDiv = styled.main`
-    width: 100vw;
-    box-sizing: border-box;
-    min-height: 100vh;
-    background: url(${silkaSrc});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 100% 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 32px;
-`;
+import BgDiv from '../components/BgDiv';
 
 function Login() {
   return (
@@ -31,8 +14,8 @@ function Login() {
         <img src={logoSrc} className='w-64'/>
         </CardHeader>
         <CardBody className='flex justify-center items-center'>
-          <p className='font-bold text-xl mt-8 mb-4'>Logowanie do systemu</p>
-          <Input name='login' className='mb-3' label='Nazwa użytkownika' variant='bordered' size='lg'/>
+          <h1 className='font-bold text-2xl text-mt-8 mb-4 text-center'>Logowanie do systemu</h1>
+          <Input name='login' className='mb-3' label='Adres e-mail' variant='bordered' size='lg'/>
           <Input name='password' className='mb-8' type='password' label='Hasło' variant='bordered' size='lg'/>
           <Button color='secondary' variant="shadow" size='lg'>Zaloguj</Button>  
         </CardBody>
