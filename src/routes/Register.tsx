@@ -9,12 +9,12 @@ function Register() {
   return (
     <BgDiv>
       <div className='max-w-[100px] basis-0 grow' />
-      <Card isBlurred={true} className='border-none dark:bg-black-100/50 w-[450px] max-w-[90%] p-10' shadow='md'>
+      <Card isBlurred={true} className='border-none dark:bg-black-100/50 w-[450px] max-w-[99%] p-10' shadow='md'>
         <CardHeader className='flex justify-center items-center'>
         <img src={logoSrc} className='w-64'/>
         </CardHeader>
         <CardBody className='flex justify-center items-center'>
-          <h1 className='font-bold text-2xl text-mt-8 mb-8 text-center'>Załóż konto w systemie</h1>
+          <h1 className='font-bold text-2xl text-mt-8 mb-8 text-center'>Załóż konto w&nbsp;systemie</h1>
           <Input name='login' className='mb-3' label='Podaj swój e-mail' variant='bordered' size='lg' />
           <Input name='nick' className='mb-3' label='Jak mamy się do Ciebie zwracać?' variant='bordered' size='lg' />
           <Input name='password' className='mb-3' type='password' label='Wprowadź hasło' variant='bordered' size='lg' />

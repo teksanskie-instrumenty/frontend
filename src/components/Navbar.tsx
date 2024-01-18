@@ -11,21 +11,38 @@ import {
   Link
 } from "@nextui-org/react";
 
+import { useState } from "react";
+import { useLocation } from 'react-router-dom';
+
 import avatarSrc from '../assets/avatar-placeholder.gif';
 import logoSrc from '../assets/logo.svg';
 
+import { Link as RouterLink } from "react-router-dom";
+
 function IntelliGymNavbar() {
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const location = useLocation();
+
+  const isDashboard = location.pathname.startsWith('/dashboard');
+  const isAuthors = location.pathname.startsWith('/authors');
+
   return (
-    <Navbar isBordered isBlurred maxWidth='full'>
-      <NavbarBrand>
-        <img src={logoSrc}/>
-      </NavbarBrand>
+    <Navbar isBordered isBlurred maxWidth='full' onMenuOpenChange={setIsMenuOpen} style={{ background: 'linear-gradient(to right, rgba(63, 36, 90, 0.7) 0%, rgba(0, 0, 0, 0.7) 33%)'}}>
+      <NavbarContent>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+          />
+        <NavbarBrand>
+          <RouterLink to='/dashboard'><img src={logoSrc}/></RouterLink>
+        </NavbarBrand>
+      </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify='start'>
         <NavbarItem isActive>
-          <Link color='secondary' href='#'>Panel użytkownika</Link>
+          <Link as={RouterLink} color={isDashboard ? 'secondary' : 'foreground'} to='/dashboard'>Panel użytkownika</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='#'>Autorzy</Link>
+          <Link as={RouterLink} color={isAuthors ? 'secondary' : 'foreground'} to='/authors'>Autorzy</Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -37,13 +54,21 @@ function IntelliGymNavbar() {
           size="sm"
           src={avatarSrc}
         />
-        Witaj, jacek84!
+        <span className='hidden lg:inline'>Witaj, jacek84!</span>
         <NavbarItem>
           <Button as={Link} color="secondary" href="#" variant="flat">
             Wyloguj się
           </Button>
         </NavbarItem>
       </NavbarContent>
+      <NavbarMenu>
+        <NavbarMenuItem>
+          <Link as={RouterLink} color={isDashboard ? 'secondary' : 'foreground'} to='/dashboard'>Panel użytkownika</Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link as={RouterLink} color={isAuthors ? 'secondary' : 'foreground'} to='/authors'>Autorzy</Link>
+        </NavbarMenuItem>
+      </NavbarMenu>
     </Navbar>
   );
 }

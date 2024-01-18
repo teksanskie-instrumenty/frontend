@@ -9,7 +9,7 @@ function Login() {
   return (
     <BgDiv>
       <div className='max-w-[100px] basis-0 grow' />
-      <Card isBlurred={true} className='border-none dark:bg-black-100/50 w-[450px] max-w-[90%] p-10' shadow='md'>
+      <Card isBlurred={true} className='border-none dark:bg-black-100/50 w-[450px] max-w-[99%] p-10' shadow='md'>
         <CardHeader className='flex justify-center items-center'>
         <img src={logoSrc} className='w-64'/>
         </CardHeader>
