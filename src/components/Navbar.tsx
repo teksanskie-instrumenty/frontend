@@ -19,12 +19,16 @@ import logoSrc from '../assets/logo.svg';
 
 import { Link as RouterLink } from "react-router-dom";
 
+import { useSession } from "../hooks/useSession";
+
 function IntelliGymNavbar() {
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
   const location = useLocation();
+  const session = useSession();
 
   const isDashboard = location.pathname.startsWith('/dashboard');
   const isAuthors = location.pathname.startsWith('/authors');
+
 
   return (
     <Navbar isBordered isBlurred maxWidth='full' onMenuOpenChange={setIsMenuOpen} style={{ background: 'linear-gradient(to right, rgba(63, 36, 90, 0.7) 0%, rgba(0, 0, 0, 0.7) 33%)'}}>
@@ -54,7 +58,7 @@ function IntelliGymNavbar() {
           size="sm"
           src={avatarSrc}
         />
-        <span className='hidden lg:inline'>Witaj, jacek84!</span>
+        <span className='hidden lg:inline'>Witaj, {session.nick || 'użytkowniku'}!</span>
         <NavbarItem>
           <Button as={Link} color="secondary" href="#" variant="flat">
             Wyloguj się
