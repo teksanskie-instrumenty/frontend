@@ -21,6 +21,8 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { useSession } from "../hooks/useSession";
 
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword';
+
 function IntelliGymNavbar() {
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
   const location = useLocation();
@@ -29,6 +31,10 @@ function IntelliGymNavbar() {
   const isDashboard = location.pathname.startsWith('/dashboard');
   const isAuthors = location.pathname.startsWith('/authors');
 
+  const handleLogOutClick = async () => {
+    await EmailPassword.signOut();
+    session.invalidateSession();
+  };
 
   return (
     <Navbar isBordered isBlurred maxWidth='full' onMenuOpenChange={setIsMenuOpen} style={{ background: 'linear-gradient(to right, rgba(63, 36, 90, 0.7) 0%, rgba(0, 0, 0, 0.7) 33%)'}}>
@@ -60,7 +66,7 @@ function IntelliGymNavbar() {
         />
         <span className='hidden lg:inline'>Witaj, {session.nick || 'użytkowniku'}!</span>
         <NavbarItem>
-          <Button as={Link} color="secondary" href="#" variant="flat">
+          <Button as={Link} color="secondary" href="#" variant="flat" onClick={handleLogOutClick}>
             Wyloguj się
           </Button>
         </NavbarItem>

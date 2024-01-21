@@ -1,12 +1,11 @@
 import { Card, CardFooter, CardHeader, Image } from '@nextui-org/react';
 
-import silkaSrc from '../assets/silka.jpg';
-
 interface PlanCardProps {
   title: string;
   description: string;
   imageSrc?: string;
   selected?: boolean;
+  onClick?: () => void;
 }
 
 function PlanCard(props: PlanCardProps) {
@@ -21,15 +20,16 @@ function PlanCard(props: PlanCardProps) {
         removeWrapper
         alt='Card background'
         className='z-0 w-full h-full object-cover absolute grayscale'
-        src={silkaSrc}
+        onClick={props.onClick}
+        src={props.imageSrc}
         />
       {
         props.selected &&
         <div
-        className='z-0 w-full h-full absolute'
+        className='z-0 w-full h-full absolute pointer-events-none'
         style={{ background: 'rgba(148, 85, 211, 0.5)' }}/>
       }
-      <CardFooter className="absolute bg-black/60 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 backdrop-blur-sm">
+      <CardFooter className="absolute bg-black/60 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 backdrop-blur-sm pointer-events-none">
         <div>
           <h4 className='font-black text-xl mb-2'>{props.title}</h4>
           <p className='text-sm'>{props.description}</p>

@@ -1,11 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 import { useAxios } from '../hooks/useAxios';
 
 import { LoaderView } from '../routes/Main';
+
+import Session from 'supertokens-web-js/recipe/session';
 
 interface SessionContextData {
   sessionId: string;
@@ -13,46 +15,41 @@ interface SessionContextData {
   nick: string;
   cardId: string | null;
   pending: boolean;
+  exists: boolean;
 }
 export type SessionContextType = SessionContextData | undefined;
 type ContextType = [SessionContextType, React.Dispatch<React.SetStateAction<SessionContextType>>];
 
 export const SessionContext = createContext<ContextType>([undefined, () => undefined]);
 
-const tokenKey = 'authorization_token';
-const sessionDataUrl = `/user-info`;
+const sessionDataUrl = '/api/user-info';
 
-function makeAxiosOptions(): AxiosRequestConfig<any> {
-  return {
-    headers: {
-      'Authorization': `Bearer ${window.localStorage.getItem(tokenKey)}`,
-    },
-  }
-}
-
-function initSessionFromCookie(
+async function initSessionFromCookie(
   axios: AxiosInstance, 
   setContext: React.Dispatch<React.SetStateAction<SessionContextType>>
-): SessionContextType {
-  const sessionId = window.localStorage.getItem(tokenKey);
+): Promise<SessionContextType> {
+  const sessionId = await Session.getAccessToken() || '';
+
   const emptySession = {
     sessionId: '',
     id: '',
     nick: '',
     cardId: null,
     pending: false,
+    exists: false,
   };
 
-  if (!sessionId) {
+  if (!await Session.doesSessionExist()) {
     return emptySession;
   } else {
-    axios.get(sessionDataUrl, makeAxiosOptions()).then((res: AxiosResponse) => {
+    axios.get(sessionDataUrl).then((res: AxiosResponse) => {
       setContext({
         sessionId: res.data['id'] ? sessionId : '',
         id: res.data['id'],
         nick: res.data['nick'],
         cardId: res.data['card_id'],
         pending: false,
+        exists: !!res.data['id'],
       });
     }).catch(() => setContext(emptySession));
 
@@ -72,11 +69,11 @@ function SessionContextLoginTeleport() {
 
   useEffect(() => {
     if (!context) {
-      setContext(initSessionFromCookie(axios, setContext));
+      initSessionFromCookie(axios, setContext).then(setContext);
       return;
     }
 
-    if (context!.sessionId === '' && !context!.pending && !location.pathname.startsWith('/login')) {
+    if (!context!.exists && !context!.pending && !location.pathname.startsWith('/login')) {
       navigate('/login', {
         replace: true
       });

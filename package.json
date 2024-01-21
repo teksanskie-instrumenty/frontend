@@ -18,7 +18,8 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.21.2",
     "react-router-dom": "^6.21.2",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "supertokens-web-js": "^0.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

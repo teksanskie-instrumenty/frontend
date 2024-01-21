@@ -1,4 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SuperTokens from 'supertokens-web-js';
+import Session from 'supertokens-web-js/recipe/session';
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword';
 
 import AxiosContextProvider from './components/AxiosContext';
 import Page from './components/Page';
@@ -11,6 +14,18 @@ import LoginRoute from './routes/Login';
 import MainRoute from './routes/Main';
 import NotFoundRoute from './routes/NotFound';
 import RegisterRoute from './routes/Register';
+
+SuperTokens.init({
+  appInfo: {
+    appName: 'IntelliGYM',
+    apiDomain: import.meta.env.PROD ? 'https://iot-proj.swisz.cz/' : 'http://localhost:5173/',
+    apiBasePath: "/auth",
+  },
+  recipeList: [
+    Session.init(),
+    EmailPassword.init()
+  ]
+});
 
 function App() {
   return (

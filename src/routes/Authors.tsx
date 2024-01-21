@@ -12,8 +12,8 @@ function Authors() {
 
         <User className='mb-4' name='Philip Hart' description='Backend' avatarProps={{ getInitials: () => 'PH' }} /><br/>
         <User className='mb-4' name='Łukasz Świszcz' description='Frontend' avatarProps={{ getInitials: () => 'ŁŚ' }} /><br/>
-        <User className='mb-4' name='Marek Fiuk' description='-' avatarProps={{ getInitials: () => 'MF' }} /><br/>
-        <User className='mb-4' name='Mateusz Chodyń' description='-' avatarProps={{ getInitials: () => 'MC' }} /><br/>
+        <User className='mb-4' name='Marek Fiuk' description='Węzeł stanowiska do ćwiczeń' avatarProps={{ getInitials: () => 'MF' }} /><br/>
+        <User className='mb-4' name='Mateusz Chodyń' description='Węzeł terminala' avatarProps={{ getInitials: () => 'MC' }} /><br/>
       </main>
     </>
   );
