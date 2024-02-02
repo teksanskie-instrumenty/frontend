@@ -73,7 +73,12 @@ function SessionContextLoginTeleport() {
       return;
     }
 
-    if (!context!.exists && !context!.pending && !location.pathname.startsWith('/login')) {
+    const isAllowedHere = (
+      location.pathname.startsWith('/login') 
+      || location.pathname.startsWith('/register/')
+    );
+
+    if (!context!.exists && !context!.pending && !isAllowedHere) {
       navigate('/login', {
         replace: true
       });

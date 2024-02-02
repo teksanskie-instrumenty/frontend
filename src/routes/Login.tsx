@@ -10,7 +10,7 @@ import BgDiv from '../components/BgDiv';
 
 import { useSession } from '../hooks/useSession';
 
-import EmailPassword from 'supertokens-web-js/recipe/emailpassword'
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword';
 
 function Login() {
   const [ login, setLogin ] = useState('');

@@ -17,6 +17,7 @@ import { useAxios } from '../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
 
 interface ExerciseDetailsProps {
+  weekday: number;
   sets: number;
   repetitions: number;
   interval: number;
@@ -25,25 +26,29 @@ interface ExerciseDetailsProps {
     name: string;
     pace: string;
   },
-  when_finished: string | null;
-  is_finished: boolean;
+  when_finished: (string | null)[];
+  is_finished: boolean[];
 }
 
 function ExerciseDetails(props: ExerciseDetailsProps) {
+  const finished = props.is_finished[props.weekday];
+  const when_finished = props.when_finished[props.weekday] || null;
   return (
     <div className='flex flex-row items-center'>
-      { props.is_finished && <span>{'\u2714'}</span> }
-      { !props.is_finished && <span className='opacity-30'>{'\u2714'}</span> }
+      { finished && <span>{'\u2714'}</span> }
+      { !finished && <span className='opacity-30'>{'\u2714'}</span> }
       <div className='ml-4 flex-grow'>
         <strong className='text-lg'>{props.exercise.name}</strong>&nbsp;&nbsp;
         <span className='text-sm'>Tempo: {props.exercise.pace}</span>
         <p>{props.sets} serie po {props.repetitions} powtórzeń, {props.interval} sek. przerwy</p>
-        { props.is_finished && props.when_finished !== null && 
-          <p className='text-success'>Ukończono {new Date(props.when_finished).toLocaleDateString('pl-PL', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          })}</p> 
+        { finished && when_finished !== null && 
+          <p className='text-success'>Ukończono {
+            new Date(when_finished).toLocaleDateString('pl-PL', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            }
+          )}</p> 
         }
       </div>
     </div>
@@ -77,7 +82,7 @@ function DashboardCard(props: DashboardCardProps) {
 
   const isToday = day === props.weekdayNumber;
 
-  const completedExercises = status === 'success' ? data.dailyPlanExercises.filter((x: { is_finished: boolean }) => x.is_finished).length : 0;
+  const completedExercises = status === 'success' ? data.dailyPlanExercises.filter((x: { is_finished: boolean[] }) => x.is_finished[props.weekdayNumber]).length : 0;
   const totalExercises = status === 'success' ? data.dailyPlanExercises.length : 0;
 
   const handleChangePlan = () => {
@@ -134,7 +139,12 @@ function DashboardCard(props: DashboardCardProps) {
                 { totalExercises === 0 && 'Ten dzień jest dniem wolnym od ćwiczeń. Hurra!'}
                 { 
                   totalExercises > 0 &&
-                  data.dailyPlanExercises.map((props: ExerciseDetailsProps & {id: number}) => <ExerciseDetails {...props} key={props.id} />)
+                  data.dailyPlanExercises.map((newProps: ExerciseDetailsProps & {id: number}) => (
+                    <ExerciseDetails 
+                      {...newProps} 
+                      key={newProps.id} 
+                      weekday={props.weekdayNumber} />
+                  ))
                 }
               </ModalBody>
               <ModalFooter>
